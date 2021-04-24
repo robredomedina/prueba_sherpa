@@ -15,27 +15,28 @@ from utils import check_if_user_exists, add_user
 
 @app.route('/')
 def index():
-    this_user = request.args['username']
-    cp = request.args['cp']
-
-    if this_user == undefined:
-        print("no username")
-
-    return "byr"
+    a = Localizacion.query.all()
+    print(a)
+    return a
 
 @app.route('/findcity')
 def getUserCity():
 
-    this_user = request.args['username']
-    cp = request.args['cp']
-
-    if this_user == undefined:
-        print("no username")
-    city = geocode_spain.query_postal_code(cp).place_name
+    username = request.args.get("username")
+    if username == None:
+        return { "error": "Please provide a username"}, 400
     
-    user_exists = check_if_user_exists(this_user)
+    cp = request.args.get("cp")
+    if cp == None:
+        return { "error": "Please provide a cp"}, 400
+
+    city = str(geocode_spain.query_postal_code(cp).place_name)
+    if city == 'nan':
+        return { "error": "Couldn't find a city with that CP"}, 400
+
+    user_exists = check_if_user_exists(username)
 
     if not user_exists:
-        add_user(this_user, cp, city)
+        add_user(username, cp, city)
 
-    return { "user": this_user , "cp": cp, "city": city }
+    return { "user": username , "cp": cp, "city": city }, 200
