@@ -34,3 +34,9 @@ En la linea de comandos, dentro de la carpeta /ts_endpoints, ejecutar:
     - /api/:cp/findAll - Devuelve todos los usuarios que están en el cp introducido
     - /api/:cp/deleteAll - Borra todos los registros con ese cp
 
+### La parte de Typescript
+En la linea de comandos, dentro de la carpeta /ts_project, ejecutar:
+- npm init -y
+- npm install
+- tsc
+- node dist/app.js
