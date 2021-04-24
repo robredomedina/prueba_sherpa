@@ -14,19 +14,18 @@ let db = new sqlite3.Database('../sherpa.db', (err) => {
 })
 
 app.get('/api/:cp/findAll', (req, res) => {
-  let result = [];
   let sql = `SELECT user FROM Localizacion WHERE cp = ${req.params.cp}`
   db.all(sql, [], (err, rows) => {
     if (err) {
       throw err;
     }
+    let result = [];
     rows.forEach((row) => {
-      console.log(row);
-      result.append(row.user)
+      result.push(row.user)
     });
+    res.send(result)
     
   });
-  return result
 })
 
 app.listen(5001, () => { console.log(`Listening on port 5001`) })
