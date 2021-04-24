@@ -1,21 +1,12 @@
 const express = require('express');
 const app = express();
 
-const sqlite3 = require('sqlite3').verbose()
-
-let db = new sqlite3.Database('../sherpa.db', (err) => {
-    if (err) {
-        console.log(err.message)
-    }
-    else {
-        console.log("Connected to sherpa db in sqlite")
-    }
-
-})
+const db = require('./db_connection')
 
 app.get('/api/:cp/findAll', (req, res) => {
-  let sql = `SELECT user FROM Localizacion WHERE cp = ${req.params.cp}`
-  db.all(sql, [], (err, rows) => {
+  let cp = req.params.cp
+  let sql = `SELECT user FROM Localizacion WHERE cp = ${cp}`
+  db.all(sql, [], (err, rows, cp) => {
     if (err) {
       throw err;
     }
@@ -23,7 +14,7 @@ app.get('/api/:cp/findAll', (req, res) => {
     rows.forEach((row) => {
       result.push(row.user)
     });
-    res.send(result)
+    res.json({ users : result })
     
   });
 })
