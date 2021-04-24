@@ -10,4 +10,21 @@ let db = new sqlite3.Database('../../sherpa.db', (err) => {
 
 })
 
-export { db };
+
+export = { 
+    findAll : (cp:string, cb:any) => {
+        
+        let sql = `SELECT user FROM Localizacion WHERE cp = ${cp}`
+        db.all(sql, (err, rows) => {
+            if (err) {
+                console.log("erroooooooooorrrrrrrrrrrrr")
+              throw err;
+            }
+            let result = [];
+            rows.forEach((row) => {
+              result.push(row)
+            });
+            cb(result)
+        })
+    }
+};
