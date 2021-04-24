@@ -1,6 +1,8 @@
 from models import User, Localizacion
 from app import db
 
+# Todo: @albertocaro, estas funciones deberían ser parte de los modelos?
+
 def check_if_user_exists(user):
     
     query = User.query.filter_by(username=user).all()

@@ -17,7 +17,7 @@ from utils import check_if_user_exists, add_user
 def index():
     a = Localizacion.query.all()
     print(a)
-    return a
+    return "hello"
 
 @app.route('/findcity')
 def getUserCity():
@@ -38,5 +38,10 @@ def getUserCity():
 
     if not user_exists:
         add_user(username, cp, city)
-
+        
     return { "user": username , "cp": cp, "city": city }, 200
+    
+    # Todo: @albertocaro Aqui hay un problema ahora, cuando un usuario que ya existe y
+    # mete un cp diferente. Hay que ver como gestionarlo: hacemos un update a 
+    # base de datos y mostramos lo que pide?
+        
