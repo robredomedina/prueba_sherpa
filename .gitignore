@@ -2,5 +2,5 @@ __pycache__/
 sherpaai/
 .vscode/
 ts_endpoints/node_modules/
-ts_proyect/node_modules/
-ts_proyect/dist/
+ts_project/node_modules/
+ts_project/dist/
