@@ -1,23 +1,16 @@
-const express = require('express');
+import express from 'express';
+
 const app = express();
 
-const db = require('./db_connection')
+import db from './db_connection';
 
 app.get('/api/:cp/findAll', (req, res) => {
-  let cp = req.params.cp
-  let sql = `SELECT user FROM Localizacion WHERE cp = ${cp}`
-  db.all(sql, [], (err, rows, cp) => {
-    if (err) {
-      throw err;
-    }
-    let result = [];
-    rows.forEach((row) => {
-      result.push(row.user)
-    });
-    res.json({ users : result })
-    
-  });
-})
+  db.findAll(req.params.cp, (result) => {
+    res.json({"users": result})
+
+  })
+});
+
 
 app.listen(5001, () => { console.log(`Listening on port 5001`) })
 
