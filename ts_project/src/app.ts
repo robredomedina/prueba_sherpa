@@ -2,32 +2,48 @@ import express from 'express';
 
 const app = express();
 
-import db from './db_connection';
+import { PrismaClient } from '@prisma/client'
 
-app.get('/api/:cp/findAll', (req, res) => {
-  db.findAll(req.params.cp, (result) => {
-    res.json({"users": result})
+const prisma = new PrismaClient()
 
+
+app.get('/', async (req, res) => {
+  const allUsers = await prisma.localizacion.findMany()
+  console.log(allUsers)
+  res.send(allUsers)
+})
+
+app.get('/api/:cp/findAll', async (req, res) => {
+  const allUsers = await prisma.localizacion.findMany({
+    where: {
+      cp: {
+        equals: req.params.cp
+      }
+    }
   })
+  res.send(allUsers)
 });
 
+app.delete('/api/:cp/deleteAll', async (req, res) => {
+  const result = await prisma.localizacion.findMany({
+    where: {
+      cp: {
+        equals: req.params.cp
+      }
+    }
+  })
+  let users = []
+  for (let user of result){
+    users.push(user.user)
+  }
+  res.send(users)
+  const deleteUser = await prisma
+  .$queryRaw`DELETE FROM user WHERE user.id in (SELECT user FROM localizacion WHERE cp= ${req.params.cp})`
+
+  const deleteLocalizaciones = await prisma
+  .$queryRaw`DELETE FROM Localizacion WHERE cp = ${req.params.cp}`
+
+});
 
 app.listen(5001, () => { console.log(`Listening on port 5001`) })
 
-/*let sql = `SELECT * FROM Localizacion`;
-
-db.all(sql, [], (err, rows) => {
-  if (err) {
-    throw err;
-  }
-  rows.forEach((row) => {
-    console.log(row);
-  });
-});
-
-db.close((err) => {
-    if (err) {
-        return console.error(err.message);
-    }
-    console.log('Close the database connection.');
-}); */

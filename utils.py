@@ -11,7 +11,7 @@ def check_if_user_exists(user):
     else:
         return True
 
-def add_user(user, cp, city):
+def add_user_city(user, cp, city):
     print("Nuevo usuario...")
     new_user = User(username=user)
     db.session.add(new_user)
@@ -22,3 +22,11 @@ def add_user(user, cp, city):
     db.session.add(loc)
     db.session.commit()
     print("...usuario añadido a la BD")
+
+def modify_user_city(user, cp, city):
+    print("Modificando Usuario {}".format(user))
+    user_1 = User.query.filter_by(username=user).first()
+    loc = Localizacion.query.filter_by(user=user_1.id).first()
+    loc.cp = cp
+    loc.city = city
+    db.session.commit()

@@ -1,0 +1,14 @@
+CREATE TABLE user (
+        id INTEGER NOT NULL, 
+        username VARCHAR(20) NOT NULL, 
+        PRIMARY KEY (id), 
+        UNIQUE (username)
+);
+CREATE TABLE localizacion (
+        id INTEGER NOT NULL, 
+        user VARCHAR(20) NOT NULL, 
+        cp VARCHAR(5) NOT NULL, 
+        city VARCHAR(20) NOT NULL, 
+        PRIMARY KEY (id), 
+        FOREIGN KEY(user) REFERENCES user (username)
+);
