@@ -10,10 +10,16 @@
 
 ### La parte de Typecript
 - He usado NodeJs, y el framework de express para realizar la API rest
-- [Prisma.io](https://www.prisma.io/) como ORM para gestionar la conexión a sqlite.
+- He utilizado [Prisma.io](https://www.prisma.io/) como ORM para gestionar la conexión a sqlite.
 - Los dos endpoints solicitados son:
     - GET */api/:cp/findAll*
     - DELETE */api/:cp/deleteAll*
+
+- No habia visto una línea de Java en mi vida, y he intentado aprenderlo  para implementar los endpoints opcionales que se solicitaban en este lenguaje. Tras haber hecho unos intentos con Spring Boot, y ver que me iba a suponer más días poder dominar Java, he decidido hacer los endpoints en Typescript (que tampoco había usado nunca, al igual que Flask).
+
+- Los otros endpoints implementados son:
+    - GET */api/usuariosporcp*
+    - GET */api/estadisticos*
 
 ### Base de Datos
 - Al ser una prueba, he querido implementar la base de datos en SQLite, con la cual nunca había trabajado, pero he leído que está bien para hacer desarrollos en local. Después he leído que para conexiones desde distintas aplicaciones, no debería utilizarse en entornos de desarrollo, ya que al no haber un servidor, sino un simple fichero en local, no se asegura que las conexiones paralelas se gestionen correctamente y pueden darse problemas de concurrencia [aqui](https://www.sqlite.org/faq.html#q5) . Haciendo pruebas en mi maquina no ha habido problemas escribiendo y leyendo desde las distintas apps, por lo que he decidido dejarlo así, y no hacer

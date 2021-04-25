@@ -2,10 +2,9 @@ import express from 'express';
 
 const app = express();
 
-import { localizacion, Prisma, PrismaClient } from '@prisma/client'
+import { localizacion, PrismaClient } from '@prisma/client'
 
 const prisma : PrismaClient = new PrismaClient()
-
 
 app.get('/api/:cp/findAll', async (req: any, res: any) => {
   const allUsers : localizacion[] = await prisma.localizacion.findMany({
@@ -22,7 +21,7 @@ app.get('/api/:cp/findAll', async (req: any, res: any) => {
   })
 });
 
-app.delete('/api/:cp/deleteAll', async (req, res) => {
+app.delete('/api/:cp/deleteAll', async (req: any, res: any) => {
   const deleteUser : any = await prisma
   .$queryRaw`DELETE FROM user WHERE user.id in (SELECT user FROM localizacion WHERE cp= ${req.params.cp})`
 
@@ -37,10 +36,9 @@ app.delete('/api/:cp/deleteAll', async (req, res) => {
 });
 
 app.get('/api/usuariosporcp', async (req: any, res: any) => {
-  const count_per_cp = await prisma.localizacion.groupBy({
+  const count_per_cp : any = await prisma.localizacion.groupBy({
     by: ['cp'],
     count: true,
-    
   })
   res.send({
     "error" : 0,
@@ -48,6 +46,36 @@ app.get('/api/usuariosporcp', async (req: any, res: any) => {
     "data" : count_per_cp
   })
 });
+
+app.get('/api/estadisticos', async (req: any, res:any) => {
+  const count_per_cp : any = await prisma.localizacion.groupBy({
+    by: ['cp'],
+    count: true,
+  })
+  const mas : any = count_per_cp[0]
+  const menos : any = count_per_cp[count_per_cp.length-1]
+  const total_usuarios : number = await prisma.localizacion.count()
+  const promedio : any = total_usuarios / count_per_cp.length
+  const desv_tipica : any = (arr : any[]) =>  {
+    return Math.sqrt(
+      arr.map((item) => (item.count-promedio)**2)
+      .reduce((acc, val) => acc + val, 0) / arr.length)
+  }
+  const dt : number = desv_tipica(count_per_cp)
+  
+  res.send({
+    "error" : 0,
+    "description" : "",
+    "data" : {
+      "cp más poblado" : mas,
+      "cp menos poblado" : menos,
+      "promedio por cp" : promedio,
+      "desviacion tipica" : dt
+    }
+  })
+
+
+})
 
 app.listen(5001, () => { console.log(`Listening on port 5001`) })
 
