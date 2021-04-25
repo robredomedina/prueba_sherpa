@@ -1,7 +1,7 @@
 from models import User, Localizacion
 from app import db
 
-# Todo: @albertocaro, estas funciones deberían ser parte de los modelos?
+# Todo: estas funciones deberían ser parte de los modelos?
 
 def check_if_user_exists(user):
     
@@ -12,7 +12,6 @@ def check_if_user_exists(user):
         return True
 
 def add_user_city(user, cp, city):
-    print("Nuevo usuario...")
     new_user = User(username=user)
     db.session.add(new_user)
     db.session.commit()
@@ -21,10 +20,8 @@ def add_user_city(user, cp, city):
     loc = Localizacion(user=user.id, cp=cp, city=city)
     db.session.add(loc)
     db.session.commit()
-    print("...usuario añadido a la BD")
 
 def modify_user_city(user, cp, city):
-    print("Modificando Usuario {}".format(user))
     user_1 = User.query.filter_by(username=user).first()
     loc = Localizacion.query.filter_by(user=user_1.id).first()
     loc.cp = cp
