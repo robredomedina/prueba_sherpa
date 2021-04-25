@@ -6,17 +6,18 @@ import pgeocode
 geocode_spain = pgeocode.Nominatim('es')
 
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///sherpa.db'
-
 db = SQLAlchemy(app)
 from models import User, Localizacion
 
 from utils import check_if_user_exists, add_user
 
 
-@app.route('/')
+@app.route('/queryall')
 def index():
     a = Localizacion.query.all()
+    b = User.query.all()
     print(a)
+    print(b)
     return "hello"
 
 @app.route('/findcity')

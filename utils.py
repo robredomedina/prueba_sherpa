@@ -18,7 +18,7 @@ def add_user(user, cp, city):
     db.session.commit()
         
     user = User.query.filter_by(username=user).first()
-    loc = Localizacion(username=user.id, cp=cp, city=city)
+    loc = Localizacion(user=user.id, cp=cp, city=city)
     db.session.add(loc)
     db.session.commit()
     print("...usuario añadido a la BD")
