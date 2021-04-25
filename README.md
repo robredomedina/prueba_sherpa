@@ -10,7 +10,10 @@
 
 ### La parte de Typecript
 - He usado NodeJs, y el framework de express para realizar la API rest
-- [Prisma.io](https://www.prisma.io/) como ORM para gestionar la conexión a sqlite
+- [Prisma.io](https://www.prisma.io/) como ORM para gestionar la conexión a sqlite.
+- Los dos endpoints solicitados son:
+    - GET */api/:cp/findAll*
+    - DELETE */api/:cp/deleteAll*
 
 ### Base de Datos
 - Al ser una prueba, he querido implementar la base de datos en SQLite, con la cual nunca había trabajado, pero he leído que está bien para hacer desarrollos en local. Después he leído que para conexiones desde distintas aplicaciones, no debería utilizarse en entornos de desarrollo, ya que al no haber un servidor, sino un simple fichero en local, no se asegura que las conexiones paralelas se gestionen correctamente y pueden darse problemas de concurrencia [aqui](https://www.sqlite.org/faq.html#q5) . Haciendo pruebas en mi maquina no ha habido problemas escribiendo y leyendo desde las distintas apps, por lo que he decidido dejarlo así, y no hacer
@@ -39,8 +42,11 @@ En la linea de comandos, dentro de la carpeta /ts_endpoints, ejecutar:
     - /api/:cp/deleteAll - Borra todos los registros con ese cp
 
 ### La parte de Typescript
+Requititos: Tener instalado npm, npx, tsc, prisma
 En la linea de comandos, dentro de la carpeta /ts_project, ejecutar:
-- npm init -y
 - npm install
+- npx prisma
 - tsc
 - node dist/app.js
+
+
