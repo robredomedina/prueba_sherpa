@@ -2,13 +2,13 @@ import express from 'express';
 
 const app = express();
 
-import { PrismaClient } from '@prisma/client'
+import { localizacion, Prisma, PrismaClient } from '@prisma/client'
 
-const prisma = new PrismaClient()
+const prisma : PrismaClient = new PrismaClient()
 
 
-app.get('/api/:cp/findAll', async (req, res) => {
-  const allUsers = await prisma.localizacion.findMany({
+app.get('/api/:cp/findAll', async (req: any, res: any) => {
+  const allUsers : localizacion[] = await prisma.localizacion.findMany({
     where: {
       cp: {
         equals: req.params.cp
@@ -23,16 +23,29 @@ app.get('/api/:cp/findAll', async (req, res) => {
 });
 
 app.delete('/api/:cp/deleteAll', async (req, res) => {
-  const deleteUser = await prisma
+  const deleteUser : any = await prisma
   .$queryRaw`DELETE FROM user WHERE user.id in (SELECT user FROM localizacion WHERE cp= ${req.params.cp})`
 
-  const deleteLocalizaciones = await prisma
+  const deleteLocalizaciones : any = await prisma
   .$queryRaw`DELETE FROM Localizacion WHERE cp = ${req.params.cp}`
 
   res.send({
     "error" : 0,
     "description" : "",
     "data" : `Users from cp ${req.params.cp} deleted correctly` 
+  })
+});
+
+app.get('/api/usuariosporcp', async (req: any, res: any) => {
+  const count_per_cp = await prisma.localizacion.groupBy({
+    by: ['cp'],
+    count: true,
+    
+  })
+  res.send({
+    "error" : 0,
+    "description" : "",
+    "data" : count_per_cp
   })
 });
 
