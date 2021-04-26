@@ -45,9 +45,6 @@ Requisitos: Tener instalado npm, npx, tsc, prisma
 En la linea de comandos, dentro de la carpeta /ts_project, ejecutar:
 - npm install
 - prisma pull - para importar los datos de la base de datos
-- tsc
-- node dist/app.js
-
 - npm run dev para ejecutar la app en modo development
 - npm run test para correr los tests
 
