@@ -23,7 +23,7 @@ export default function createServer() {
       "data": allUsers
     })
   });
-  app.delete('/api/:cp/deleteAll', async (req: any, res: any) => {
+  app.delete('/api/:cp/deleteAll', async (req: Request, res: Response) => {
     const deleteUser: any = await prisma
       .$queryRaw`DELETE FROM user WHERE user.id in (SELECT user FROM localizacion WHERE cp= ${req.params.cp})`
 
@@ -36,7 +36,7 @@ export default function createServer() {
       "data": `Users from cp ${req.params.cp} deleted correctly`
     })
   });
-  app.get('/api/usuariosporcp', async (req: any, res: any) => {
+  app.get('/api/usuariosporcp', async (req: Request, res: Response) => {
     const count_per_cp : any = await prisma.localizacion.groupBy({
       by: ['cp'],
       count: true,
@@ -47,15 +47,15 @@ export default function createServer() {
       "data" : count_per_cp
     })
   });
-  app.get('/api/estadisticos', async (req: any, res:any) => {
+  app.get('/api/estadisticos', async (req: Request, res:Response) => {
     const count_per_cp : any = await prisma.localizacion.groupBy({
       by: ['cp'],
       count: true,
     })
-    const mas : any = count_per_cp[0]
-    const menos : any = count_per_cp[count_per_cp.length-1]
+    const mas : number = count_per_cp[0]
+    const menos : number = count_per_cp[count_per_cp.length-1]
     const total_usuarios : number = await prisma.localizacion.count()
-    const promedio : any = total_usuarios / count_per_cp.length
+    const promedio : number = total_usuarios / count_per_cp.length
     const desv_tipica : any = (arr : any[]) =>  {
       return Math.sqrt(
         arr.map((item) => (item.count-promedio)**2)
