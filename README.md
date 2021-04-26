@@ -23,6 +23,16 @@
 
 - He realizado algunos tests con **Mocha** como framework, **chai** como librería de aserciones y **supertest** para simular la conexion a la app. He de decir que también es la primera vez que hago tests, ya que en mi actual empresa no se hacen. 
 
+Todos los endpoints devuelven un json, con esta estructura:
+{ "error": _
+  "description": _
+  "data": _
+}
+
+Ahora mismo sólo hay 3 tipos de error, y 0 significa que no hay error. Si devuelve error, data vuelve vacío.
+
+
+
 ### Base de Datos
 - Al ser una prueba, he querido implementar la base de datos en SQLite, con la cual nunca había trabajado, pero he leído que está bien para hacer desarrollos en local. Después he leído que para conexiones desde distintas aplicaciones, no debería utilizarse en entornos de desarrollo, ya que al no haber un servidor, sino un simple fichero en local, no se asegura que las conexiones paralelas se gestionen correctamente y pueden darse problemas de concurrencia [aqui](https://www.sqlite.org/faq.html#q5) . Haciendo pruebas en mi maquina no ha habido problemas escribiendo y leyendo desde las distintas apps, por lo que he decidido dejarlo así, y no hacer
 - El fichero **database_schema.txt** muestra el esquema de las 2 tablas creadas.
