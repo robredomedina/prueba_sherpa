@@ -21,6 +21,8 @@
     - GET */api/usuariosporcp*
     - GET */api/estadisticos*
 
+- He realizado algunos tests con **Mocha** como framework, **chai** como librería de aserciones y **supertest** para simular la conexion a la app. He de decir que también es la primera vez que hago tests, ya que en mi actual empresa no se hacen. 
+
 ### Base de Datos
 - Al ser una prueba, he querido implementar la base de datos en SQLite, con la cual nunca había trabajado, pero he leído que está bien para hacer desarrollos en local. Después he leído que para conexiones desde distintas aplicaciones, no debería utilizarse en entornos de desarrollo, ya que al no haber un servidor, sino un simple fichero en local, no se asegura que las conexiones paralelas se gestionen correctamente y pueden darse problemas de concurrencia [aqui](https://www.sqlite.org/faq.html#q5) . Haciendo pruebas en mi maquina no ha habido problemas escribiendo y leyendo desde las distintas apps, por lo que he decidido dejarlo así, y no hacer
 - El fichero **database_schema.txt** muestra el esquema de las 2 tablas creadas.
@@ -38,21 +40,19 @@ En la linea de comandos, ejecutar:
 - para buscar la ciudad hay que añadir los param username y cp: 
     - */findcity?username=ejemplo&cp=00000*
 
-### La parte de JS
-En la linea de comandos, dentro de la carpeta /ts_endpoints, ejecutar:
-- npm init -y
-- npm install
-- (de momento, y al estar en desarrollo) npm start
-- Aquí hay _ endopoints:
-    - /api/:cp/findAll - Devuelve todos los usuarios que están en el cp introducido
-    - /api/:cp/deleteAll - Borra todos los registros con ese cp
-
 ### La parte de Typescript
-Requititos: Tener instalado npm, npx, tsc, prisma
+Requisitos: Tener instalado npm, npx, tsc, prisma
 En la linea de comandos, dentro de la carpeta /ts_project, ejecutar:
 - npm install
-- npx prisma
+- prisma pull - para importar los datos de la base de datos
 - tsc
 - node dist/app.js
 
+- npm run dev para ejecutar la app en modo development
+- npm run test para correr los tests
 
+- En esta app hay los siguientes endopoints:
+    - GET */api/:cp/findAll* - Devuelve todos los usuarios que están en el cp introducido
+    - DELETE */api/:cp/deleteAll* - Borra todos los registros con ese cp
+    - GET */api/usuariosporcp* - Devuelve los usuarios totales por cp, ordenados de mayor a menor
+    - GET */api/estadisticos* - Devuelve varios datos: cp con más usuarios, cp con menos usuarios, promedio de usuarios por cp, y desviacion tipica del promedio de usuarios por cp.
